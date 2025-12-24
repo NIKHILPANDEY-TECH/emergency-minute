@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'qZikJy06ETFgk7siAfgK_Z9PwjTRdSGKBI4i2e8yZ-U')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     
     # SQLite configuration - Vercel-friendly
     if os.environ.get('VERCEL'):
