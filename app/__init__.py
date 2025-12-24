@@ -26,8 +26,9 @@ def create_app():
     app.register_blueprint(responder.bp, url_prefix='/responder')
     app.register_blueprint(dashboard.bp, url_prefix='/dashboard')
     
-    # Create tables
+    # Create tables and ensure /tmp exists
     with app.app_context():
+        os.makedirs('/tmp', exist_ok=True)
         db.create_all()
     
     @login_manager.user_loader
