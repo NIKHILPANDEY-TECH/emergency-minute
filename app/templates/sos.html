@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>🚨 Emergency SOS</h2>
+<div id="sos-container">
+    <div id="location-status">Getting your location...</div>
+    <div id="emergency-types" style="display:none;">
+        <h3>Select Emergency Type:</h3>
+        <button onclick="triggerSOS('cardiac')">❤️ Cardiac</button>
+        <button onclick="triggerSOS('fire')">🔥 Fire</button>
+        <button onclick="triggerSOS('accident')">🚗 Accident</button>
+        <button onclick="triggerSOS('crime')">👮 Crime</button>
+        <button onclick="triggerSOS('other')">⚠️ Other</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/sos.js') }}"></script>
+{% endblock %}

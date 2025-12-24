@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>🚑 Responder Dashboard</h2>
+<p>Auto-refresh in 30 seconds...</p>
+<meta http-equiv="refresh" content="30">
+
+<div class="emergency-list">
+    {% for item in emergencies %}
+    <div class="emergency-card {% if item.distance_km < 5 %}near{% endif %}">
+        <h3>{{ item.emergency.emergency_type.upper() }}</h3>
+        <p><strong>Victim:</strong> {{ item.emergency.victim.name }}</p>
+        <p><strong>Distance:</strong> {{ item.distance_km }} km</p>
+        <p><strong>Status:</strong> {{ item.emergency.status }}</p>
+        <p><strong>Time:</strong> {{ item.emergency.created_at.strftime('%H:%M:%S') }}</p>
+        <form method="POST" action="{{ url_for('responder_bp.accept', emergency_id=item.emergency.id) }}" style="display:inline;">
+            <button type="submit" class="btn btn-primary">Accept</button>
+        </form>
+    </div>
+    {% else %}
+    <p>No active emergencies nearby.</p>
+    {% endfor %}
+</div>
+{% endblock %}

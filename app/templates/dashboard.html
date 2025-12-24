@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>📊 Authority Dashboard - All Emergencies</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Victim</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emergency in emergencies %}
+        <tr>
+            <td>{{ emergency.id }}</td>
+            <td>{{ emergency.emergency_type }}</td>
+            <td>{{ emergency.victim.name }}</td>
+            <td>{{ emergency.latitude }}, {{ emergency.longitude }}</td>
+            <td><span class="status-{{ emergency.status }}">{{ emergency.status }}</span></td>
+            <td>{{ emergency.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                {% if emergency.status != 'resolved' %}
+                <form method="POST" action="{{ url_for('dashboard_bp.resolve', emergency_id=emergency.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-success btn-sm">Mark Resolved</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

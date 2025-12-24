@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>🚨 Emergency Minute</h1>
+
+{% if not current_user.is_authenticated %}
+    <p>Please register or login to continue.</p>
+{% else %}
+    <div class="role-dashboard">
+        {% if current_user.is_victim() %}
+            <h2>Victim Portal</h2>
+            <p><a href="{{ url_for('emergency.sos_page') }}" class="btn btn-danger">🚨 Trigger SOS Emergency</a></p>
+        {% endif %}
+        
+        {% if current_user.is_responder() %}
+            <h2>Responder Portal</h2>
+            <p><a href="{{ url_for('responder_bp.dashboard') }}" class="btn btn-primary">📋 View Active Emergencies</a></p>
+        {% endif %}
+        
+        {% if current_user.is_authority() %}
+            <h2>Authority Portal</h2>
+            <p><a href="{{ url_for('dashboard_bp.authority') }}" class="btn btn-success">📊 Manage All Emergencies</a></p>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
