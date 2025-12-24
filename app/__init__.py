@@ -1,6 +1,10 @@
 from flask import Flask, render_template
 from flask_login import LoginManager, current_user
 import os
+from .config import Config
+from .extensions import db, login_manager
+from .models.user import User
+from .routes import auth, emergency, responder, dashboard
 
 def create_app():
     app_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,8 +40,9 @@ def create_app():
     @app.route('/')
     def index():
         return render_template('index.html', user=current_user)
+    
     @app.route('/favicon.ico')
     def favicon():
-         return '', 204  # No content response    
-
+        return '', 204  # No content response
+    
     return app
