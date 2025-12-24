@@ -24,7 +24,7 @@ def create_app():
     
     # Create tables and ensure directory exists
     with app.app_context():
-        # For Vercel, ensure tmp directory exists
+        # Ensure /tmp exists for Vercel
         if os.environ.get('VERCEL'):
             os.makedirs('/tmp', exist_ok=True)
         db.create_all()
