@@ -2,14 +2,7 @@ from flask import Flask, render_template
 from flask_login import LoginManager, current_user
 import os
 
-# Import your modules
-from .config import Config
-from .extensions import db, login_manager
-from .models.user import User
-from .routes import auth, emergency, responder, dashboard
-
 def create_app():
-    # Get absolute path to this file's directory
     app_dir = os.path.dirname(os.path.abspath(__file__))
     
     app = Flask(__name__, 
@@ -29,8 +22,11 @@ def create_app():
     app.register_blueprint(responder.bp, url_prefix='/responder')
     app.register_blueprint(dashboard.bp, url_prefix='/dashboard')
     
-    # Create tables
+    # Create tables and ensure directory exists
     with app.app_context():
+        # For Vercel, ensure tmp directory exists
+        if os.environ.get('VERCEL'):
+            os.makedirs('/tmp', exist_ok=True)
         db.create_all()
     
     @login_manager.user_loader
@@ -40,9 +36,5 @@ def create_app():
     @app.route('/')
     def index():
         return render_template('index.html', user=current_user)
-    
-    @app.route('/test-static')
-    def test_static():
-        return f"Static folder: {app.static_folder}<br>Exists: {os.path.exists(app.static_folder)}"
     
     return app
