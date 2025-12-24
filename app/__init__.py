@@ -5,6 +5,7 @@ from .config import Config
 from .extensions import db, login_manager
 from .models.user import User
 from .routes import auth, emergency, responder, dashboard
+from flask import send_from_directory
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -43,9 +44,6 @@ def create_app():
     def index():
         return render_template('index.html', user=current_user)
     
-    @app.route('/favicon.ico')
-    def favicon():
-        return '', 204  # No content response
 
 @app.route('/test')
 def test():
@@ -60,6 +58,11 @@ def test():
         """
     except Exception as e:
         return f"<h3>❌ Error:</h3><pre>{traceback.format_exc()}</pre>"
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.static_folder, 'images'), 
+                               'favicon.ico', 
+                               mimetype='image/vnd.microsoft.icon')
 
     
     return app
