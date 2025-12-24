@@ -5,6 +5,8 @@ from .config import Config
 from .extensions import db, login_manager
 from .models.user import User
 from .routes import auth, emergency, responder, dashboard
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     app_dir = os.path.dirname(os.path.abspath(__file__))
@@ -44,5 +46,20 @@ def create_app():
     @app.route('/favicon.ico')
     def favicon():
         return '', 204  # No content response
+
+@app.route('/test')
+def test():
+    import os
+    import traceback
+    try:
+        return f"""
+        <h1>✅ App is working!</h1>
+        <p>SECRET_KEY: {'SET' if os.environ.get('SECRET_KEY') else 'NOT SET'}</p>
+        <p>VERCEL: {os.environ.get('VERCEL', 'NOT SET')}</p>
+        <p>Database: {app.config.get('SQLALCHEMY_DATABASE_URI', 'NOT SET')}</p>
+        """
+    except Exception as e:
+        return f"<h3>❌ Error:</h3><pre>{traceback.format_exc()}</pre>"
+
     
     return app
