@@ -9,7 +9,10 @@ class Emergency(db.Model):
     status = db.Column(db.String(20), default='active')  # active, assigned, resolved
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     victim_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    
+    responder_latitude = db.Column(db.Float, nullable=True)
+    responder_longitude = db.Column(db.Float, nullable=True)
+    responder_updated_at = db.Column(db.DateTime, nullable=True)
+  
     # Relationships
     assignments = db.relationship('EmergencyAssignment', backref='emergency', lazy=True)
     

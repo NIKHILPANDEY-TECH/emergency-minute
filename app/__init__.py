@@ -5,8 +5,14 @@ from .config import Config
 from .extensions import db, login_manager
 from .models.user import User
 from .routes import auth, emergency, responder, dashboard
+from .routes.map import bp as map_bp
+
+
+from dotenv import load_dotenv
+load_dotenv()
 
 def create_app():
+
     app_dir = os.path.dirname(os.path.abspath(__file__))
     
     app = Flask(__name__, 
@@ -16,6 +22,7 @@ def create_app():
     
     app.config.from_object(Config)
     
+    app.config['GOOGLE_MAPS_API_KEY'] = os.environ.get('GOOGLE_MAPS_API_KEY', '')
     # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
@@ -25,7 +32,9 @@ def create_app():
     app.register_blueprint(emergency.bp, url_prefix='/emergency')
     app.register_blueprint(responder.bp, url_prefix='/responder')
     app.register_blueprint(dashboard.bp, url_prefix='/dashboard')
-    
+
+    app.register_blueprint(map_bp)
+
     # Create tables and ensure /tmp exists
     with app.app_context():
         os.makedirs('/tmp', exist_ok=True)

@@ -4,15 +4,20 @@
 <h2>🚨 Emergency SOS</h2>
 <div id="sos-container">
     <div id="location-status">Getting your location...</div>
-    <div id="emergency-types" style="display:none;">
+    <div id="map" style="width: 100%; height: 300px; margin: 1rem 0; border-radius: 8px; display: none;"></div>
+    <div id="emergency-types" style="display: none;">
         <h3>Select Emergency Type:</h3>
-        <button onclick="triggerSOS('cardiac')">❤️ Cardiac</button>
-        <button onclick="triggerSOS('fire')">🔥 Fire</button>
-        <button onclick="triggerSOS('accident')">🚗 Accident</button>
-        <button onclick="triggerSOS('crime')">👮 Crime</button>
-        <button onclick="triggerSOS('other')">⚠️ Other</button>
+        <button onclick="triggerSOS('cardiac')" class="btn btn-danger">❤️ Cardiac</button>
+        <button onclick="triggerSOS('fire')" class="btn btn-danger">🔥 Fire</button>
+        <button onclick="triggerSOS('accident')" class="btn btn-danger">🚗 Accident</button>
+        <button onclick="triggerSOS('crime')" class="btn btn-danger">👮 Crime</button>
+        <button onclick="triggerSOS('other')" class="btn btn-danger">⚠️ Other</button>
     </div>
 </div>
 
+<script>
+    const API_KEY = '{{ config["GOOGLE_MAPS_API_KEY"] }}';
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config["GOOGLE_MAPS_API_KEY"] }}&callback=initSOSMap" async defer></script>
 <script src="{{ url_for('static', filename='js/sos.js') }}"></script>
 {% endblock %}
