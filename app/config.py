@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'EMERGENCY_MINUTE_SECRET_KEY_2024_RANDOM_STRING_FOR_FLASK_SESSIONS_32_CHARS')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-localhost')
     GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
     
     if os.environ.get('GOOGLE_MAPS_API_KEY'):
