@@ -4,7 +4,7 @@ from ..models.emergency import Emergency  # Fixed import
 from ..models.assignment import EmergencyAssignment  # Fixed import
 from ..extensions import db  # Fixed import
 
-bp = Blueprint('emergency', __name__)
+bp = Blueprint('emergency', __name__, url_prefix='/emergency')
 
 @bp.route('/trigger', methods=['POST'])
 @login_required

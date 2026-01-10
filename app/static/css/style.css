@@ -94,3 +94,59 @@ main {
     padding: 0.75rem;
     border-left: 4px solid #f39c12;
 }
+
+    .map-container {
+        padding: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    #map {
+        margin: 1rem 0;
+        border: 2px solid #e74c3c;
+        min-height: 500px;
+    }
+    
+    .map-controls {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+    
+    .info-window {
+        padding: 0.5rem;
+        max-width: 250px;
+    }
+    
+    .info-window h4 {
+        margin: 0 0 0.5rem 0;
+        color: #e74c3c;
+    }
+    
+    .info-window p {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .victim-marker {
+        color: #e74c3c;
+        font-size: 1.5rem;
+    }
+    
+    .responder-marker {
+        color: #3498db;
+        font-size: 1.5rem;
+    }
+    
+    #status-bar {
+        font-size: 0.9rem;
+    }
+    
+    #connection-status.connected {
+        color: #27ae60;
+    }
+    
+    #connection-status.disconnected {
+        color: #e74c3c;
+    }
