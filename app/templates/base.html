@@ -2,48 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Minute</title>
+    <title>{% block title %}Emergency Minute{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <nav>
-        {% if current_user.is_authenticated %}
-            <span>Welcome, {{ current_user.name }} ({{ current_user.role }})</span>
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_victim() %}
-                <a href="{{ url_for('emergency.sos_page') }}">🚨 SOS</a>
-                {% if current_user.emergencies[0] %}
-                    <a href="{{ url_for('map.map_view', emergency_id=current_user.emergencies[0].id) }}">🗺️ Track</a>
-                {% endif %}
+
+    <!-- Top App Bar -->
+    <header class="app-header">
+        <div class="app-title">
+            <a href="{{ url_for('main.index') }}" style="text-decoration:none;color:inherit;">
+                Emergency Minute
+            </a>
+        </div>
+
+        <div class="user-info">
+            {% if current_user.is_authenticated %}
+                <span class="user-name">
+                    {{ current_user.name if current_user.name else current_user.email }}
+                </span>
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="login-btn">Login</a>
             {% endif %}
-            {% if current_user.is_responder() %}
-                <a href="{{ url_for('responder_bp.dashboard') }}">📋 Responder Dashboard</a>
-                <!-- FIXED: Use general map route for responders -->
-                <a href="{{ url_for('map.map_view_general') }}">🗺️ Map View</a>
-            {% endif %}
-            {% if current_user.is_authority() %}
-                <a href="{{ url_for('dashboard_bp.authority') }}">📊 Authority Dashboard</a>
-            {% endif %}
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
-        {% else %}
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            <a href="{{ url_for('auth.register') }}">Register</a>
-        {% endif %}
-    </nav>
-    
-    <main>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        
+        </div>
+    </header>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Page Content -->
+    <main class="app-container">
         {% block content %}{% endblock %}
     </main>
+
 </body>
 </html>
